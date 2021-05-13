@@ -10,7 +10,7 @@ public class StateCensusAnalyserTest {
     private static final String WRONG_CSV_FILE_PATH = "C:\\Users\\Shuchita Singh\\src\\main\\resources\\IndiaStateCensusData.csv";
     private static final String WRONG_CSV_FILE_TYPE = "C:\\Users\\Shuchita Singh\\src\\test\\resources\\IndiaStateCensusData.txt";
     private static final String CSV_FILE_WITH_WRONG_DELIMITER = "C:\\Users\\Shuchita Singh\\src\\main\\resources\\IndiaStateCensusData - Copy.csv";
-
+    private static final String STATE_CODE_CSV_WITH_WRONG_DELIMITER = "C:\\Users\\Shuchita Singh\\src\\test\\resources\\IndiaStateCode-Copy.csv";
     private Assertions Assert;
 
     /**
@@ -98,6 +98,64 @@ public class StateCensusAnalyserTest {
             Assert.assertEquals(37, numOfRecords);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
+    }
+    /**
+     * given india state code info with wrong file path should throw exception
+     */
+    @Test
+    public void givenStateCodeInformation_WithWrongFilePath_ShouldThrowException() {
+        try {
+            StateCensusAnalyzer stateCensusAnalyser = new StateCensusAnalyzer();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyserException.class);
+            stateCensusAnalyser.loadStateCodeCensusData("./src/main/java/resources/IndiaStateCode.csv");
+        } catch (CensusAnalyserException e) {
+
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
+    }
+
+    /**
+     * indian state code with wrong file type..
+     */
+    @Test
+    public void givenStateCodeInformation_WithWrongFileType_ShouldThrowException() {
+        try {
+            StateCensusAnalyzer stateCensusAnalyser = new StateCensusAnalyzer();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyserException.class);
+            stateCensusAnalyser.loadStateCodeCensusData("test/resources/IndiaStateCode.txt");
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+        }
+    }
+    /**
+     * indian state code with wrong delemeter .....
+     */
+    @Test
+    public void givenStateCodeCSVFile_WhenCorrectButDelimiterWrong_ShouldThrowException()  {
+        try {
+            StateCensusAnalyzer stateCensusAnalyser = new StateCensusAnalyzer();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyserException.class);
+            stateCensusAnalyser.loadStateCodeCensusData(STATE_CODE_CSV_WITH_WRONG_DELIMITER);
+        } catch (CensusAnalyserException x) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, x.type);
+        }
+    }
+    /**
+     * when csv file is correct but csv header is incorrect return throw exception...
+     */
+    @Test
+    public void givenStateCodeCSVFile_WhenCorrectButCSVHeaderIncorrect_ShouldThrowException()  {
+        try {
+            StateCensusAnalyzer stateCensusAnalyser = new StateCensusAnalyzer();
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CensusAnalyserException.class);
+            stateCensusAnalyser.loadStateCodeCensusData(STATE_CODE_CSV_WITH_WRONG_DELIMITER);
+        } catch (CensusAnalyserException x) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, x.type);
         }
     }
 
